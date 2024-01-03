@@ -6,8 +6,8 @@ Versions of tallipoika currently being supported with security updates.
 
 | Version(s) | Supported |
 |:-----------|:----------|
-| 2024.1.3   | yes       |
-| < 2024.1.3 | no        |
+| 2024.1.4   | yes       |
+| < 2024.1.4 | no        |
 
 ## Reporting a Vulnerability
 
