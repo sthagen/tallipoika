@@ -1,0 +1,150 @@
+{
+  "info": {
+    "author": "",
+    "author_email": "Stefan Hagen <stefan@hagen.link>",
+    "bugtrack_url": null,
+    "classifiers": [
+      "Development Status :: 3 - Alpha",
+      "Intended Audience :: Developers",
+      "License :: OSI Approved :: MIT License",
+      "Programming Language :: Python :: 3.10",
+      "Programming Language :: Python :: 3.11",
+      "Programming Language :: Python :: 3.12",
+      "Programming Language :: Python :: 3.9"
+    ],
+    "description": "# Tallipoika\n\nStableson (Finnish: tallipoika) - a JSON Canonicalization Scheme (JCS) implementation.\n\n[![License](https://git.sr.ht/~sthagen/tallipoika/blob/default/docs/badges/license-spdx-mit.svg)](https://git.sr.ht/~sthagen/tallipoika/tree/default/item/LICENSE)\n[![Country of Origin](https://git.sr.ht/~sthagen/tallipoika/blob/default/docs/badges/country-of-origin-name-switzerland-neutral.svg)](https://git.sr.ht/~sthagen/tallipoika/tree/default/item/COUNTRY-OF-ORIGIN)\n[![Export Classification Control Number (ECCN)](https://git.sr.ht/~sthagen/tallipoika/blob/default/docs/badges/export-control-classification-number_eccn-ear99-neutral.svg)](https://git.sr.ht/~sthagen/tallipoika/tree/default/item/EXPORT-CONTROL-CLASSIFICATION-NUMBER)\n[![Configuration](https://git.sr.ht/~sthagen/tallipoika/blob/default/docs/badges/configuration-sbom.svg)](https://git.sr.ht/~sthagen/tallipoika/tree/default/item/docs/third-party/README.md)\n\n[![Version](https://git.sr.ht/~sthagen/tallipoika/blob/default/docs/badges/latest-release.svg)](https://pypi.python.org/pypi/tallipoika/)\n[![Downloads](https://git.sr.ht/~sthagen/tallipoika/blob/default/docs/badges/downloads-per-month.svg)](https://pepy.tech/project/tallipoika)\n[![Python](https://git.sr.ht/~sthagen/tallipoika/blob/default/docs/badges/python-versions.svg)](https://pypi.python.org/pypi/tallipoika/)\n[![Maintenance Status](https://git.sr.ht/~sthagen/tallipoika/blob/default/docs/badges/commits-per-year.svg)](https://git.sr.ht/~sthagen/tallipoika/log)\n\n## Documentation\n\nUser and developer [documentation of tallipoika](https://codes.dilettant.life/docs/tallipoika).\n\n## Bug Tracker\n\nAny feature requests or bug reports shall go to the [todos of tallipoika](https://todo.sr.ht/~sthagen/tallipoika).\n\n## Primary Source repository\n\nThe main source of `tallipoika` is on a mountain in central Switzerland.\nWe use distributed version control (git).\nThere is no central hub.\nEvery clone can become a new source for the benefit of all.\nThe preferred public clone of `tallipoika` is:\n\n* [at sourcehut](https://git.sr.ht/~sthagen/tallipoika) - a collection of tools useful for software development.\n\n## Contributions\n\nPlease do not submit \"pull requests\" (I found no way to disable that \"feature\" on GitHub).\nIf you like to share small changes under the repositories license please kindly do so by sending a patchset.\nYou can either send such a patchset per email using [git send-email](https://git-send-email.io) or\nif you are a sourcehut user by selecting \"Prepare a patchset\" on the summary page of your fork at [sourcehut](https://git.sr.ht/).\n\n## Support\n\nPlease kindly submit issues at https://todo.sr.ht/~sthagen/tallipoika or write plain text email to ~sthagen/tallipoika@lists.sr.ht to submit patches and request support. Thanks.\n\n## Thanks also to\n\nThis implementation is based on the [original implementation of the JSON Canonicalization Scheme (JCS)](https://github.com/cyberphone/json-canonicalization) gently provided under the APACHE-2.0 license by Anders Rundgren.\nThe initial implementation of `tallipoika` is kept similar to show the identical functioning of both implementation.\nAlso, the input and output JSON tests are provided within this repository as a service for validators.\n\n# Status\n\nExperimental.\n\n**Note**: The default branch is `default`.\n",
+    "description_content_type": "text/markdown",
+    "docs_url": null,
+    "download_url": "",
+    "downloads": {
+      "last_day": -1,
+      "last_month": -1,
+      "last_week": -1
+    },
+    "home_page": "",
+    "keywords": "developer-tools,devops",
+    "license": "",
+    "maintainer": "",
+    "maintainer_email": "Stefan Hagen <stefan@hagen.link>",
+    "name": "tallipoika",
+    "package_url": "https://pypi.org/project/tallipoika/",
+    "platform": null,
+    "project_url": "https://pypi.org/project/tallipoika/",
+    "project_urls": {
+      "Bug-Tracker": "https://todo.sr.ht/~sthagen/tallipoika",
+      "Documentation": "https://codes.dilettant.life/docs/tallipoika",
+      "Homepage": "https://git.sr.ht/~sthagen/tallipoika",
+      "Source-Code": "https://git.sr.ht/~sthagen/tallipoika",
+      "Test-Coverage": "https://codes.dilettant.life/coverage/tallipoika"
+    },
+    "release_url": "https://pypi.org/project/tallipoika/2024.1.3/",
+    "requires_dist": [
+      "typer",
+      "black ; extra == 'dev'",
+      "coverage ; extra == 'dev'",
+      "hypothesis ; extra == 'dev'",
+      "mypy ; extra == 'dev'",
+      "pytest ; extra == 'dev'",
+      "pytest-cov ; extra == 'dev'",
+      "pytest-flake8 ; extra == 'dev'",
+      "ruff ; extra == 'dev'"
+    ],
+    "requires_python": ">=3.9",
+    "summary": "Stableson (Finnish: tallipoika) - a JSON Canonicalization Scheme (JCS) implementation.",
+    "version": "2024.1.3",
+    "yanked": false,
+    "yanked_reason": null
+  },
+  "last_serial": 21274153,
+  "releases": {
+    "2024.1.3": [
+      {
+        "comment_text": "",
+        "digests": {
+          "blake2b_256": "27a3ea800c7be6fbf330cd53de5bcbae15fca0573ee44b1132d9406d2b681ccd",
+          "md5": "329495edc165beacc7f093f2dc47485f",
+          "sha256": "9ab0376ff8052542b9127a1da03ae437792daa0dda01f482b538658eda0a7405"
+        },
+        "downloads": -1,
+        "filename": "tallipoika-2024.1.3-py3-none-any.whl",
+        "has_sig": false,
+        "md5_digest": "329495edc165beacc7f093f2dc47485f",
+        "packagetype": "bdist_wheel",
+        "python_version": "py3",
+        "requires_python": ">=3.9",
+        "size": 10530,
+        "upload_time": "2024-01-03T00:00:23",
+        "upload_time_iso_8601": "2024-01-03T00:00:23.956201Z",
+        "url": "https://files.pythonhosted.org/packages/27/a3/ea800c7be6fbf330cd53de5bcbae15fca0573ee44b1132d9406d2b681ccd/tallipoika-2024.1.3-py3-none-any.whl",
+        "yanked": false,
+        "yanked_reason": null
+      },
+      {
+        "comment_text": "",
+        "digests": {
+          "blake2b_256": "923aaee6e6a01c0ca97b7ab1beb0f97f1efb9a99628a4f21b91a8dea2271580f",
+          "md5": "539f3d78cd91b40fd0159cda96726a8a",
+          "sha256": "7f8aec4b9dadd9e5dcc91eda4cfba7b2164e477f7f5484a165aadd2478be5f98"
+        },
+        "downloads": -1,
+        "filename": "tallipoika-2024.1.3.tar.gz",
+        "has_sig": false,
+        "md5_digest": "539f3d78cd91b40fd0159cda96726a8a",
+        "packagetype": "sdist",
+        "python_version": "source",
+        "requires_python": ">=3.9",
+        "size": 13069,
+        "upload_time": "2024-01-03T00:00:25",
+        "upload_time_iso_8601": "2024-01-03T00:00:25.394753Z",
+        "url": "https://files.pythonhosted.org/packages/92/3a/aee6e6a01c0ca97b7ab1beb0f97f1efb9a99628a4f21b91a8dea2271580f/tallipoika-2024.1.3.tar.gz",
+        "yanked": false,
+        "yanked_reason": null
+      }
+    ]
+  },
+  "urls": [
+    {
+      "comment_text": "",
+      "digests": {
+        "blake2b_256": "27a3ea800c7be6fbf330cd53de5bcbae15fca0573ee44b1132d9406d2b681ccd",
+        "md5": "329495edc165beacc7f093f2dc47485f",
+        "sha256": "9ab0376ff8052542b9127a1da03ae437792daa0dda01f482b538658eda0a7405"
+      },
+      "downloads": -1,
+      "filename": "tallipoika-2024.1.3-py3-none-any.whl",
+      "has_sig": false,
+      "md5_digest": "329495edc165beacc7f093f2dc47485f",
+      "packagetype": "bdist_wheel",
+      "python_version": "py3",
+      "requires_python": ">=3.9",
+      "size": 10530,
+      "upload_time": "2024-01-03T00:00:23",
+      "upload_time_iso_8601": "2024-01-03T00:00:23.956201Z",
+      "url": "https://files.pythonhosted.org/packages/27/a3/ea800c7be6fbf330cd53de5bcbae15fca0573ee44b1132d9406d2b681ccd/tallipoika-2024.1.3-py3-none-any.whl",
+      "yanked": false,
+      "yanked_reason": null
+    },
+    {
+      "comment_text": "",
+      "digests": {
+        "blake2b_256": "923aaee6e6a01c0ca97b7ab1beb0f97f1efb9a99628a4f21b91a8dea2271580f",
+        "md5": "539f3d78cd91b40fd0159cda96726a8a",
+        "sha256": "7f8aec4b9dadd9e5dcc91eda4cfba7b2164e477f7f5484a165aadd2478be5f98"
+      },
+      "downloads": -1,
+      "filename": "tallipoika-2024.1.3.tar.gz",
+      "has_sig": false,
+      "md5_digest": "539f3d78cd91b40fd0159cda96726a8a",
+      "packagetype": "sdist",
+      "python_version": "source",
+      "requires_python": ">=3.9",
+      "size": 13069,
+      "upload_time": "2024-01-03T00:00:25",
+      "upload_time_iso_8601": "2024-01-03T00:00:25.394753Z",
+      "url": "https://files.pythonhosted.org/packages/92/3a/aee6e6a01c0ca97b7ab1beb0f97f1efb9a99628a4f21b91a8dea2271580f/tallipoika-2024.1.3.tar.gz",
+      "yanked": false,
+      "yanked_reason": null
+    }
+  ],
+  "vulnerabilities": []
+}
