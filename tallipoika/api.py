@@ -1,6 +1,7 @@
 """JSON Canonicalization Scheme (JCS) serializer."""
+import math
 import re
-from typing import no_type_check
+from typing import Any, no_type_check
 
 import tallipoika.py2es6 as py2es6
 
@@ -31,6 +32,7 @@ NL = '\n'
 JSON_FALSE_REP = 'false'
 JSON_NULL_REP = 'null'
 JSON_TRUE_REP = 'true'
+JSON_FNT_MAP = {None: 'null', True: 'true', False: 'false'}
 
 ESCAPE = re.compile(r'[\x00-\x1f\\"\b\f\n\r\t]')
 ESCAPE_ASCII = re.compile(r'([\\"]|[^\ -~])')
@@ -51,28 +53,28 @@ INFINITY = float('inf')
 
 
 @no_type_check
-def py_encode_basestring(s):
+def py_encode_basestring(text: str) -> str:
     """Return a JSON representation of a Python string."""
 
     def replace(match):
         return ESCAPE_DCT[match.group(0)]
 
-    return f'"{ESCAPE.sub(replace, s)}"'
+    return f'"{ESCAPE.sub(replace, text)}"'
 
 
 encode_basestring = c_encode_basestring or py_encode_basestring
 
 
 @no_type_check
-def py_encode_basestring_ascii(s):
+def py_encode_basestring_ascii(text: str) -> str:
     """Return an ASCII-only JSON representation of a Python string."""
 
     def replace(match):
-        s = match.group(0)
+        char = match.group(0)
         try:
-            return ESCAPE_DCT[s]
+            return ESCAPE_DCT[char]
         except KeyError:
-            n = ord(s)
+            n = ord(char)
             if n < 0x10000:
                 return '\\u{0:04x}'.format(n)
             else:
@@ -80,9 +82,9 @@ def py_encode_basestring_ascii(s):
                 n -= 0x10000
                 s1 = 0xD800 | ((n >> 10) & 0x3FF)
                 s2 = 0xDC00 | (n & 0x3FF)
-                return '\\u{0:04x}\\u{1:04x}'.format(s1, s2)
+                return f'\\u{s1:04x}\\u{s2:04x}'
 
-    return f'"{ESCAPE_ASCII.sub(replace, s)}"'
+    return f'"{ESCAPE_ASCII.sub(replace, text)}"'
 
 
 encode_basestring_ascii = c_encode_basestring_ascii or py_encode_basestring_ascii  # type: ignore
@@ -113,7 +115,7 @@ class JSONEncoder(object):
     def __init__(
         self,
         *,
-        skipkeys=False,
+        skip_keys=False,
         ensure_ascii=False,
         check_circular=True,
         allow_nan=True,
@@ -124,8 +126,8 @@ class JSONEncoder(object):
     ):
         """Constructor for JSONEncoder, with sensible defaults.
 
-        If skipkeys is false, then it is a TypeError to attempt encoding of keys that are not str, int, float or None.
-        If skipkeys is True, such items are simply skipped.
+        If skip_keys is false, then it is a TypeError to attempt encoding of keys that are not str, int, float or None.
+        If skip_keys is True, such items are simply skipped.
 
         If ensure_ascii is true, the output is guaranteed to be str objects with all incoming non-ASCII characters
         escaped.  If ensure_ascii is false, the output can contain non-ASCII characters.
@@ -153,7 +155,7 @@ class JSONEncoder(object):
 
         """
 
-        self.skipkeys = skipkeys
+        self.skip_keys = skip_keys
         self.ensure_ascii = ensure_ascii
         self.check_circular = check_circular
         self.allow_nan = allow_nan
@@ -193,12 +195,8 @@ class JSONEncoder(object):
         '{"foo": ["bar", "baz"]}'
 
         """
-        # This is for extremely simple cases and benchmarks.
-        if isinstance(o, str):
-            if self.ensure_ascii:
-                return encode_basestring_ascii(o)
-            else:
-                return encode_basestring(o)
+        if isinstance(o, str):  # This is for extremely simple cases and benchmarks.
+            return encode_basestring_ascii(o) if self.ensure_ascii else encode_basestring(o)
         # This doesn't pass the iterator directly to ''.join() because the exceptions aren't as detailed.
         # The list call should be roughly equivalent to the PySequence_Fast that ''.join() would do.
         chunks = self.iterencode(o, _one_shot=False)
@@ -210,40 +208,31 @@ class JSONEncoder(object):
     def iterencode(self, o, _one_shot=False):
         """Encode the given object and yield each string representation as available.
 
-        For example::
+        For example:
 
-            for chunk in JSONEncoder().iterencode(bigobject):
+            for chunk in JSONEncoder().iterencode(big_object):
                 mysocket.write(chunk)
 
         """
-        if self.check_circular:
-            markers = {}
-        else:
-            markers = None
-        if self.ensure_ascii:
-            _encoder = encode_basestring_ascii
-        else:
-            _encoder = encode_basestring
+        markers = {} if self.check_circular else None
+        _encoder = encode_basestring_ascii if self.ensure_ascii else encode_basestring
 
-        def floatstr(o, allow_nan=self.allow_nan, _repr=float.__repr__, _inf=INFINITY, _neginf=-INFINITY):
+        def floatstr(obj: Any, allow_nan=self.allow_nan, _repr=float.__repr__, _inf=INFINITY, _neginf=-INFINITY):
             """Check for specials.
 
             Note that this type of test is processor and platform-specific, so tests shall not rely on the internals.
             """
+            if math.isfinite(obj):
+                return _repr(obj)  # noqa
+            elif not allow_nan:
+                raise ValueError(f'out of range float value {repr(obj)} is not JSON compliant')
 
-            if o != o:
-                text = 'NaN'
-            elif o == _inf:
-                text = 'Infinity'
-            elif o == _neginf:
-                text = '-Infinity'
-            else:
-                return _repr(o)
-
-            if not allow_nan:
-                raise ValueError(f'out of range float value {repr(o)} is not JSON compliant')
-
-            return text
+            if math.isnan(obj):
+                return 'NaN'
+            if obj == _inf:
+                return 'Infinity'
+            if obj == _neginf:
+                return '-Infinity'
 
         if _one_shot and c_make_encoder is not None and self.indent is None:
             _iterencode = c_make_encoder(
@@ -254,7 +243,7 @@ class JSONEncoder(object):
                 self.key_separator,
                 self.item_separator,
                 self.sort_keys,
-                self.skipkeys,
+                self.skip_keys,
                 self.allow_nan,
             )
         else:
@@ -267,7 +256,7 @@ class JSONEncoder(object):
                 self.key_separator,
                 self.item_separator,
                 self.sort_keys,
-                self.skipkeys,
+                self.skip_keys,
                 _one_shot,
             )
         return _iterencode(o, 0)
@@ -283,7 +272,7 @@ def _make_iterencode(
     _key_separator,
     _item_separator,
     _sort_keys,
-    _skipkeys,
+    _skip_keys,
     _one_shot,
     # HACK: hand-optimized bytecode; turn globals into locals
     ValueError=ValueError,
@@ -301,15 +290,15 @@ def _make_iterencode(
         _indent = SPACE * _indent
 
     @no_type_check
-    def _iterencode_list(lst, _current_indent_level):
+    def _iterencode_list(lst, _current_indent_level: int):
         if not lst:
             yield EMPTY_ARRAY_REP
             return
         if markers is not None:
-            markerid = id(lst)
-            if markerid in markers:
+            marker_id = id(lst)
+            if marker_id in markers:
                 raise ValueError('circular reference detected for sequence')
-            markers[markerid] = lst
+            markers[marker_id] = lst
         buf = OPEN_SB
         if _indent is not None:
             _current_indent_level += 1
@@ -319,39 +308,39 @@ def _make_iterencode(
         else:
             newline_indent = None
             separator = _item_separator
-        first = True
+        is_first = True
         for value in lst:
-            if first:
-                first = False
+            if is_first:
+                is_first = False
             else:
                 buf = separator
             if isinstance(value, str):
                 yield buf + _encoder(value)
-            elif value is None:
-                yield buf + JSON_NULL_REP
-            elif value is True:
-                yield buf + JSON_TRUE_REP
-            elif value is False:
-                yield buf + JSON_FALSE_REP
+            elif any(value is atom for atom in (False, None, True)):
+                yield buf + JSON_FNT_MAP[value]
             elif isinstance(value, (float, int)):
                 # Subclasses of float and int may override __str__, but should still serialize as numbers in JSON.
                 # One example within the standard library is IntEnum.
                 yield buf + py2es6.serialize(value)
             else:
                 yield buf
-                if isinstance(value, (list, tuple)):
-                    chunks = _iterencode_list(value, _current_indent_level)
-                elif isinstance(value, dict):
-                    chunks = _iterencode_dict(value, _current_indent_level)
-                else:
-                    chunks = _iterencode(value, _current_indent_level)
-                yield from chunks
+                chunker = (
+                    _iterencode_list
+                    if isinstance(value, (list, tuple))
+                    else (_iterencode_dict if isinstance(value, dict) else _iterencode)
+                )
+                yield from chunker(value, _current_indent_level)
         if newline_indent is not None:
             _current_indent_level -= 1
-            yield NL + _indent * _current_indent_level
+            yield f'{NL}{_indent * _current_indent_level}'
         yield CLOSE_SB
         if markers is not None:
-            del markers[markerid]
+            try:
+                marker_id  # noqa
+            except NameError:
+                pass
+            else:
+                del markers[marker_id]
 
     @no_type_check
     def _iterencode_dict(dct, _current_indent_level):
@@ -359,84 +348,75 @@ def _make_iterencode(
             yield EMPTY_OBJECT_REP
             return
         if markers is not None:
-            markerid = id(dct)
-            if markerid in markers:
+            marker_id = id(dct)
+            if marker_id in markers:
                 raise ValueError('circular reference detected for dict')
-            markers[markerid] = dct
+            markers[marker_id] = dct
         yield OPEN_CB
         if _indent is not None:
             _current_indent_level += 1
-            newline_indent = '\n' + _indent * _current_indent_level
+            newline_indent = f'{NL}{_indent * _current_indent_level}'
             item_separator = _item_separator + newline_indent
             yield newline_indent
         else:
             newline_indent = None
             item_separator = _item_separator
-        first = True
-        if _sort_keys:
-            items = sorted(dct.items(), key=lambda kv: kv[0].encode('utf-16_be'))
-        else:
-            items = dct.items()
+        is_first = True
+        items = sorted(dct.items(), key=lambda kv: kv[0].encode('utf-16_be')) if _sort_keys else dct.items()
         for key, value in items:
             if isinstance(key, str):
                 pass
-            # JavaScript is weakly typed for these, so it makes sense to
-            # also allow them.  Many encoders seem to do something like this.
+            # JavaScript is weakly typed for these, so it makes sense to also allow them.
+            # Many encoders seem to do something like this.
             elif isinstance(key, (float, int)):
                 # see comment for float/int in _make_iterencode
                 key = py2es6.serialize(key)
-            elif key is True:
-                key = 'true'
-            elif key is False:
-                key = 'false'
-            elif key is None:
-                key = 'null'
-            elif _skipkeys:
+            elif any(value is atom for atom in (False, None, True)):
+                key = JSON_FNT_MAP[value]
+            elif _skip_keys:
                 continue
             else:
                 raise TypeError(f'key {repr(key)} is not a string')
-            if first:
-                first = False
+            if is_first:
+                is_first = False
             else:
                 yield item_separator
+
             yield _encoder(key)
             yield _key_separator
+
             if isinstance(value, str):
                 yield _encoder(value)
-            elif value is None:
-                yield JSON_NULL_REP
-            elif value is True:
-                yield JSON_TRUE_REP
-            elif value is False:
-                yield JSON_FALSE_REP
+            elif any(value is atom for atom in (False, None, True)):
+                yield JSON_FNT_MAP[value]
             elif isinstance(value, (float, int)):
                 # see comment for int/float in _make_iterencode
                 yield py2es6.serialize(value)
             else:
-                if isinstance(value, (list, tuple)):
-                    chunks = _iterencode_list(value, _current_indent_level)
-                elif isinstance(value, dict):
-                    chunks = _iterencode_dict(value, _current_indent_level)
-                else:
-                    chunks = _iterencode(value, _current_indent_level)
-                yield from chunks
+                chunker = (
+                    _iterencode_list
+                    if isinstance(value, (list, tuple))
+                    else (_iterencode_dict if isinstance(value, dict) else _iterencode)
+                )
+                yield from chunker(value, _current_indent_level)
         if newline_indent is not None:
             _current_indent_level -= 1
             yield NL + _indent * _current_indent_level
         yield CLOSE_CB
         if markers is not None:
-            del markers[markerid]
+            try:
+                marker_id  # noqa
+            except NameError:
+                pass
+            else:
+                del markers[marker_id]
 
     @no_type_check
     def _iterencode(o, _current_indent_level):
         if isinstance(o, str):
             yield _encoder(o)
-        elif o is None:
-            yield JSON_NULL_REP
-        elif o is True:
-            yield JSON_TRUE_REP
-        elif o is False:
-            yield JSON_FALSE_REP
+        elif any(o is atom for atom in (False, None, True)):
+            yield JSON_FNT_MAP[o]
         elif isinstance(o, (float, int)):
             # see comment for float/int in _make_iterencode
             yield py2es6.serialize(o)
@@ -446,14 +426,19 @@ def _make_iterencode(
             yield from _iterencode_dict(o, _current_indent_level)
         else:
             if markers is not None:
-                markerid = id(o)
-                if markerid in markers:
+                marker_id = id(o)
+                if marker_id in markers:
                     raise ValueError('circular reference detected')
-                markers[markerid] = o
+                markers[marker_id] = o
             o = _default(o)
             yield from _iterencode(o, _current_indent_level)
             if markers is not None:
-                del markers[markerid]
+                try:
+                    marker_id  # noqa
+                except NameError:
+                    pass
+                else:
+                    del markers[marker_id]
 
     return _iterencode
 
