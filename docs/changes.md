@@ -1,4 +1,7 @@
 # Changes
 
-2024.01.03
+2024.1.4
+:    * Simplifications and readability
+
+2024.1.3
 :    * Initial version on pypi (testing the packaging)
