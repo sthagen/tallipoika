@@ -1,5 +1,8 @@
 # Changes
 
+2024.1.7
+:    * Added command line interface for serialization and canonicalization
+
 2024.1.6
 :    * Replaced shifting loops with product expressions and further simplifications 
 

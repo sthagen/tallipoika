@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "tallipoika"
-version = "2024.1.6"
+version = "2024.1.7"
 description = "Stableson (Finnish: tallipoika) - a JSON Canonicalization Scheme (JCS) implementation."
 readme = "README.md"
 authors = [{ name = "Stefan Hagen", email = "stefan@hagen.link" }]

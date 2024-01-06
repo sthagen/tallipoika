@@ -35,13 +35,13 @@ Canonicalization of reference example for arrays:
 Serialization only:
 
 ```console
-tallipoika -s < test/fixtures/reference_upstream_input/arrays.json
+% tallipoika -s < test/fixtures/reference_upstream_input/arrays.json
 [56,{"1":[],"10":null,"d":true}]
 ```
 
 ### Version
 
 ```console
-tallipoika -V
+% tallipoika -V
 Stableson (Finnish: tallipoika) - a JSON Canonicalization Scheme (JCS) implementation. version 2024.1.6+parent.g6c33ae2f
 ```
