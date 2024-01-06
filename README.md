@@ -44,8 +44,8 @@ Please kindly submit issues at https://todo.sr.ht/~sthagen/tallipoika or write p
 ## Thanks also to
 
 This implementation is based on the [original implementation of the JSON Canonicalization Scheme (JCS)](https://github.com/cyberphone/json-canonicalization) gently provided under the APACHE-2.0 license by Anders Rundgren.
-The initial implementation of `tallipoika` is kept similar to show the identical functioning of both implementations.
-Also, the input and output JSON tests are provided within this repository as a service for validators.
+The initial implementation of `tallipoika` was kept similar to show the identical functioning of both implementations.
+Also, the input and output JSON tests are provided within this repository as a service for validators and to help tracing the evolution in context.
 
 # Status
 
