@@ -16,8 +16,7 @@ def serialize(number: Union[float, int]) -> str:
 
     Implementation Note(s):
 
-    - (builtin) numbers are for now int and float but may be extended to other types
-      that can be mapped to JSON numbers
+    - (builtin) numbers are for now int and float but may be extended to other types that can be mapped to JSON numbers
     - separate into the components:
       + sign
       + integral part
@@ -25,58 +24,39 @@ def serialize(number: Union[float, int]) -> str:
       + fractional part
       + exponent part
     - return the concatenation of the components (some components may be empty)
-
     """
     if not math.isfinite(number):
         raise ValueError(f'invalid number ({number})')
 
     as_float = float(number)
-
     if as_float == 0:
         return DIGIT_ZERO
 
     as_text = str(as_float)
-
     sign = DASH if as_text[0] == DASH else ''
     magnitude = as_text[1:] if sign else as_text
-
     mantissa = magnitude
-    exponent = ''
-    exponent_number = 0
-    if (fndx := magnitude.find('e')) > 0:
-        mantissa, exponent = magnitude[0:fndx], magnitude[fndx:]
-        if exponent[2:3] == '0':  # Suppress leading zero on exponents
-            exponent = exponent[:2] + exponent[3:]
-        exponent_number = int(exponent[1:])
+    e_part, e_number = '', 0
+    if (exp_ndx := magnitude.find('e')) > 0:
+        mantissa, e_part = magnitude[0:exp_ndx], magnitude[exp_ndx:]
+        if e_part[2:3] == '0':  # remove leading zero of exponent representation
+            e_part = f'{e_part[:2]}{e_part[3:]}'
+        e_number = int(e_part[1:])
 
-    integral = mantissa
-    decimal_point = ''
-    fractional = ''
-    if (fndx := mantissa.find(DECIMAL_POINT)) > 0:
-        decimal_point = DECIMAL_POINT
-        integral, fractional = mantissa[:fndx], mantissa[fndx + 1 :]
+    i_part, d_point, f_part = mantissa, '', ''
+    if (dec_ndx := mantissa.find(DECIMAL_POINT)) > 0:
+        d_point = DECIMAL_POINT
+        i_part, f_part = mantissa[:dec_ndx], mantissa[dec_ndx + 1 :]
 
-    if fractional == DIGIT_ZERO:  # x.0 -> x
-        decimal_point = ''
-        fractional = ''
+    if f_part == DIGIT_ZERO:
+        d_point, f_part = '', ''
 
-    if MIN_INTEGER_DIGITS < exponent_number < MAX_INTEGER_DIGITS:
-        integral += fractional
-        fractional = ''
-        decimal_point = ''
-        exponent = ''
-        n = exponent_number - len(integral)
-        while n >= 0:
-            n -= 1
-            integral += DIGIT_ZERO
-    elif REPR_SWITCH_ABOVE < exponent_number < 0:
-        fractional = integral + fractional
-        integral = DIGIT_ZERO
-        decimal_point = DECIMAL_POINT
-        exponent = ''
-        n = exponent_number
-        while n < -1:
-            n += 1
-            fractional = DIGIT_ZERO + fractional
+    if MIN_INTEGER_DIGITS < e_number < MAX_INTEGER_DIGITS:
+        up_shifts = e_number - len(i_part) - len(f_part) + 1
+        return f'{sign}{i_part}{f_part}{DIGIT_ZERO * up_shifts}'  # removed decimal point and exponential part
 
-    return f'{sign}{integral}{decimal_point}{fractional}{exponent}'
+    if REPR_SWITCH_ABOVE < e_number < 0:
+        down_shifts = -e_number - 1
+        return f'{sign}{DIGIT_ZERO}{DECIMAL_POINT}{DIGIT_ZERO * down_shifts}{i_part}{f_part}'  # removed exponential part
+
+    return f'{sign}{i_part}{d_point}{f_part}{e_part}'
