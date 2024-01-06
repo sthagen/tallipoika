@@ -1,4 +1,4 @@
-"""JSON Canonicalization Scheme (JCS) serializer."""
+"""JSON Canonicalization Scheme (JCS) serializer API."""
 import math
 from typing import Any, no_type_check
 
