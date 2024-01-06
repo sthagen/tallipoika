@@ -70,43 +70,27 @@ class JSONEncoder:
             self.default = default
 
     @no_type_check
-    def default(self, o):
-        """Implement this method in a subclass such that it returns a serializable object for o.
+    def default(self, obj):
+        """Implement this method in a subclass such that it returns a serializable object for obj.
 
-        For example, to support arbitrary iterators, you could implement default like this::
-
-            def default(self, o):
-                try:
-                    iterable = iter(o)
-                except TypeError:
-                    pass
-                else:
-                    return list(iterable)
-                return JSONEncoder.default(self, o) # Let the base class default method raise the TypeError
-
+        For an example, cf. https://docs.python.org/3/library/json.html#json.JSONEncoder.default
         """
-        raise TypeError(f"Object of type '{o.__class__.__name__}' is not JSON serializable")
+        raise TypeError(f"Object of type '{obj.__class__.__name__}' is not JSON serializable")
 
     @no_type_check
-    def encode(self, o):
-        """Return a JSON string representation of a Python data structure.
-
-        >>> from json.encoder import JSONEncoder
-        >>> JSONEncoder().encode({"foo": ["bar", "baz"]})
-        '{"foo": ["bar", "baz"]}'
-
-        """
-        if isinstance(o, str):  # This is for extremely simple cases and benchmarks.
-            return encode_basestring_ascii(o) if self.ensure_ascii else encode_basestring(o)
+    def encode(self, obj):
+        """Return a JSON string representation of a Python data structure."""
+        if isinstance(obj, str):  # This is for extremely simple cases and benchmarks.
+            return encode_basestring_ascii(obj) if self.ensure_ascii else encode_basestring(obj)
         # This doesn't pass the iterator directly to ''.join() because the exceptions aren't as detailed.
         # The list call should be roughly equivalent to the PySequence_Fast that ''.join() would do.
-        chunks = self.iterencode(o, _one_shot=False)
+        chunks = self.iterencode(obj, _one_shot=False)
         if not isinstance(chunks, (list, tuple)):
             chunks = list(chunks)
         return ''.join(chunks)
 
     @no_type_check
-    def iterencode(self, o, _one_shot=False):
+    def iterencode(self, obj, _one_shot=False):
         """Encode the given object and yield each string representation as available.
 
         For example:
@@ -160,7 +144,7 @@ class JSONEncoder:
                 self.skipkeys,
                 _one_shot,
             )
-        return _iterencode(o, 0)
+        return _iterencode(obj, 0)
 
 
 @no_type_check

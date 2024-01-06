@@ -15,6 +15,7 @@ try:
 except ImportError:
     accelerated_make_encoder = None  # type: ignore
 
+UC_SPLIT = 0x10000
 ESCAPE = re.compile(r'[\x00-\x1f\\"\b\f\n\r\t]')
 ESCAPE_ASCII = re.compile(r'([\\"]|[^\ -~])')
 HAS_UTF8 = re.compile(b'[\x80-\xff]')
@@ -44,6 +45,14 @@ def py_encode_basestring(text: str) -> str:
 encode_basestring = c_encode_basestring or py_encode_basestring
 
 
+def handle_surrogate_pair(char_num: int) -> str:
+    """Encode surrogate pair."""
+    char_num -= UC_SPLIT
+    s1 = 0xD800 | ((char_num >> 10) & 0x3FF)
+    s2 = 0xDC00 | (char_num & 0x3FF)
+    return f'\\u{s1:04x}\\u{s2:04x}'
+
+
 @no_type_check
 def py_encode_basestring_ascii(text: str) -> str:
     """Return an ASCII-only JSON representation of a Python string."""
@@ -53,14 +62,8 @@ def py_encode_basestring_ascii(text: str) -> str:
         try:
             return ESCAPE_DCT[char]
         except KeyError:
-            n = ord(char)
-            if n < 0x10000:
-                return '\\u{0:04x}'.format(n)
-            else:  # surrogate pair
-                n -= 0x10000
-                s1 = 0xD800 | ((n >> 10) & 0x3FF)
-                s2 = 0xDC00 | (n & 0x3FF)
-                return f'\\u{s1:04x}\\u{s2:04x}'
+            char_num = ord(char)
+            return '\\u{0:04x}'.format(char_num) if char_num < UC_SPLIT else handle_surrogate_pair(char_num)
 
     return f'"{ESCAPE_ASCII.sub(replace, text)}"'
 

@@ -47,26 +47,26 @@ def make_iterencode(
         _indent = SPACE * _indent
 
     @no_type_check
-    def _iterencode_list(lst, _current_indent_level: int):
-        if not lst:
+    def _iterencode_list(seq, _current_indent_level: int):
+        if not seq:
             yield EMPTY_ARRAY_REP
             return
         if markers is not None:
-            marker_id = id(lst)
+            marker_id = id(seq)
             if marker_id in markers:
                 raise ValueError('circular reference detected for sequence')
-            markers[marker_id] = lst
+            markers[marker_id] = seq
         buf = OPEN_SB
         if _indent is not None:
             _current_indent_level += 1
-            newline_indent = NL + _indent * _current_indent_level
-            separator = _item_separator + newline_indent
+            newline_indent = f'{NL}{_indent * _current_indent_level}'
+            separator = f'{_item_separator}{newline_indent}'
             buf += newline_indent
         else:
             newline_indent = None
             separator = _item_separator
         is_first = True
-        for value in lst:
+        for value in seq:
             if is_first:
                 is_first = False
             else:
@@ -100,15 +100,15 @@ def make_iterencode(
                 del markers[marker_id]
 
     @no_type_check
-    def _iterencode_dict(dct, _current_indent_level):
-        if not dct:
+    def _iterencode_dict(assoc, _current_indent_level):
+        if not assoc:
             yield EMPTY_OBJECT_REP
             return
         if markers is not None:
-            marker_id = id(dct)
+            marker_id = id(assoc)
             if marker_id in markers:
                 raise ValueError('circular reference detected for dict')
-            markers[marker_id] = dct
+            markers[marker_id] = assoc
         yield OPEN_CB
         if _indent is not None:
             _current_indent_level += 1
@@ -119,7 +119,7 @@ def make_iterencode(
             newline_indent = None
             item_separator = _item_separator
         is_first = True
-        items = sorted(dct.items(), key=lambda kv: kv[0].encode(ENCODING_FOR_SORT)) if _sort_keys else dct.items()
+        items = sorted(assoc.items(), key=lambda kv: kv[0].encode(ENCODING_FOR_SORT)) if _sort_keys else assoc.items()
         for key, value in items:
             if isinstance(key, str):
                 pass
@@ -169,26 +169,26 @@ def make_iterencode(
                 del markers[marker_id]
 
     @no_type_check
-    def _iterencode(o, _current_indent_level):
-        if isinstance(o, str):
-            yield _encoder(o)
-        elif any(o is atom for atom in (False, None, True)):
-            yield JSON_FNT_MAP[o]
-        elif isinstance(o, (float, int)):
+    def _iterencode(obj, _current_indent_level):
+        if isinstance(obj, str):
+            yield _encoder(obj)
+        elif any(obj is atom for atom in (False, None, True)):
+            yield JSON_FNT_MAP[obj]
+        elif isinstance(obj, (float, int)):
             # see comment for float/int in _make_iterencode
-            yield py2es6.serialize(o)
-        elif isinstance(o, (list, tuple)):
-            yield from _iterencode_list(o, _current_indent_level)
-        elif isinstance(o, dict):
-            yield from _iterencode_dict(o, _current_indent_level)
+            yield py2es6.serialize(obj)
+        elif isinstance(obj, (list, tuple)):
+            yield from _iterencode_list(obj, _current_indent_level)
+        elif isinstance(obj, dict):
+            yield from _iterencode_dict(obj, _current_indent_level)
         else:
             if markers is not None:
-                marker_id = id(o)
+                marker_id = id(obj)
                 if marker_id in markers:
                     raise ValueError('circular reference detected')
-                markers[marker_id] = o
-            o = _default(o)
-            yield from _iterencode(o, _current_indent_level)
+                markers[marker_id] = obj
+            obj = _default(obj)
+            yield from _iterencode(obj, _current_indent_level)
             if markers is not None:
                 try:
                     marker_id  # noqa
