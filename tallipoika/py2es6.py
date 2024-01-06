@@ -3,7 +3,7 @@ import math
 from typing import Union, no_type_check
 
 DASH = '-'
-DECIMAL_POINT = '.'
+D_POINT = '.'
 DIGIT_ZERO = '0'
 MIN_INTEGER_DIGITS = 0
 MAX_INTEGER_DIGITS = 21
@@ -44,8 +44,8 @@ def serialize(number: Union[float, int]) -> str:
         e_number = int(e_part[1:])
 
     i_part, d_point, f_part = mantissa, '', ''
-    if (dec_ndx := mantissa.find(DECIMAL_POINT)) > 0:
-        d_point = DECIMAL_POINT
+    if (dec_ndx := mantissa.find(D_POINT)) > 0:
+        d_point = D_POINT
         i_part, f_part = mantissa[:dec_ndx], mantissa[dec_ndx + 1 :]
 
     if f_part == DIGIT_ZERO:
@@ -53,10 +53,10 @@ def serialize(number: Union[float, int]) -> str:
 
     if MIN_INTEGER_DIGITS < e_number < MAX_INTEGER_DIGITS:
         up_shifts = e_number - len(i_part) - len(f_part) + 1
-        return f'{sign}{i_part}{f_part}{DIGIT_ZERO * up_shifts}'  # removed decimal point and exponential part
+        return f'{sign}{i_part}{f_part}{DIGIT_ZERO * up_shifts}'  # neither decimal point nor exponential representation
 
     if REPR_SWITCH_ABOVE < e_number < 0:
         down_shifts = -e_number - 1
-        return f'{sign}{DIGIT_ZERO}{DECIMAL_POINT}{DIGIT_ZERO * down_shifts}{i_part}{f_part}'  # removed exponential part
+        return f'{sign}{DIGIT_ZERO}{D_POINT}{DIGIT_ZERO * down_shifts}{i_part}{f_part}'  # no exponential representation
 
     return f'{sign}{i_part}{d_point}{f_part}{e_part}'
