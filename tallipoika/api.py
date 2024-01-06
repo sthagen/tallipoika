@@ -2,7 +2,7 @@
 import math
 from typing import Any, no_type_check
 
-from tallipoika.hidden_factory import make_iterencode as _make_iterencode
+from tallipoika._factory import make_iterencode as _make_iterencode
 from tallipoika.speedup import accelerated_make_encoder, encode_basestring, encode_basestring_ascii
 
 COLON = ':'
@@ -29,8 +29,8 @@ class JSONEncoder:
     - Python `False` -> JSON false
     - Python `None` -> JSON null
 
-    To extend recognition to other objects, subclass and implement a `.default()` method that returns a serializable
-    object for `o` if possible, otherwise it should call the superclass implementation (to raise `TypeError`).
+    To extend recognition to other objects, subclass and implement a `default` method that returns a serializable
+    object for `obj` if possible, otherwise it should call the superclass implementation (to raise `TypeError`).
     """
 
     item_separator = f'{COMMA}{SPACE}'
@@ -51,7 +51,7 @@ class JSONEncoder:
     ):
         """Constructor for JSONEncoder, with sensible defaults for JCS.
 
-        All parameter defaults except the value for ' sort_keys' are as per the standard Python implementation;
+        All parameter defaults except the value for `sort_keys` are as per the standard Python implementation;
         for documentation cf. https://docs.python.org/3/library/json.html#json.JSONEncoder.
 
         The default value for the `sort_keys` parameter is `True`, so the output of dictionaries will be sorted by key.
@@ -120,7 +120,7 @@ class JSONEncoder:
                 return REPR_NEG_INF
 
         if _one_shot and accelerated_make_encoder is not None and self.indent is None:
-            _iterencode = accelerated_make_encoder(
+            return accelerated_make_encoder(
                 markers,
                 self.default,
                 _encoder,
@@ -130,21 +130,20 @@ class JSONEncoder:
                 self.sort_keys,
                 self.skipkeys,
                 self.allow_nan,
-            )
-        else:
-            _iterencode = _make_iterencode(
-                markers,
-                self.default,
-                _encoder,
-                self.indent,
-                floatstr,
-                self.key_separator,
-                self.item_separator,
-                self.sort_keys,
-                self.skipkeys,
-                _one_shot,
-            )
-        return _iterencode(obj, 0)
+            )(obj, 0)
+
+        return _make_iterencode(
+            markers,
+            self.default,
+            _encoder,
+            self.indent,
+            floatstr,
+            self.key_separator,
+            self.item_separator,
+            self.sort_keys,
+            self.skipkeys,
+            _one_shot,
+        )(obj, 0)
 
 
 @no_type_check
