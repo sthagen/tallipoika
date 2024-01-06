@@ -1,13 +1,13 @@
 name: tallipoika
 description: Stableson (Finnish: tallipoika) - a JSON Canonicalization Scheme (JCS) implementation.
 license_spdx: MIT
-version: 2024.1.4
+version: 2024.1.6
 spec_version: 1.0
 home_url: https://git.sr.ht/~sthagen/tallipoika
 news_url: https://libraries.io/pypi/tallipoika/versions.atom
-date: 2024-01-04
+date: 2024-01-06
 about_resource: ./
-libraries_io_url: https://libraries.io/pypi/tallipoika?number=2024.1.4
+libraries_io_url: https://libraries.io/pypi/tallipoika?number=2024.1.6
 vcs_tool: git
 vcs_repository: https://git.sr.ht/~sthagen/tallipoika
 vcs_branch: default
