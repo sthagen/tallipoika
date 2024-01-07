@@ -137,7 +137,7 @@ at revision `sha1:0bce379832b475a6c21726ce37f971f8d849513b` from 2016-12-02 03:2
 As stated below the throughput is around 30361606 incoming bytes per second (around 29 Megabytes/second).
 
 The JCS "compression" in the canonicalization case for that input file is around (resulting jcs.json has a size of 26129992 bytes): 1.0004, so nearly no compression.
-But, the entropy has been reduced from down to 5.192266 i.e. from 64.9436 % down to 64.903325 % (the change is smaller than 0.05 % of 100 % or 0.06 % of the incoming entropy). 
+But, the entropy has been reduced from 5.195488 down to 5.192266 i.e. from 64.9436 % down to 64.903325 % (the change is smaller than 0.05 % of 100 % or 0.06 % of the incoming entropy). 
 Comparing canonicalization with serialization surprisingly finds:
 
 ```console
@@ -157,6 +157,10 @@ Summary
     1.25 ± 0.02 times faster than tallipoika json-iterator_test-data_sha1-0bce3798_large-file.json -s \
                                     -o json-iterator_test-data_sha1-0bce3798_large-file.serialized.json
 ```
+
+**Note**: The only difference between the two transforms being that serialization does maintain the order of the incoming keys while canonicalization sorts the keys.
+This does not mean that there is no cost in ordering in the former case, as it may be more costly to maintain the incoming order on output than to allow sorting on output.
+Just some plausibility thinking, no real facts, as I did not bother to look at the different implementations from the underlying implementation in use (on that machine). 
 
 Comparing the above timings with the following (using stdin and stdout IO mechanisms instead of file paths) yields no surprises though:
 
