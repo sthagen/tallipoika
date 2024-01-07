@@ -48,7 +48,10 @@ Stableson (Finnish: tallipoika) - a JSON Canonicalization Scheme (JCS) implement
 
 ## Cursory Benchmarks
 
-### References
+The testing node is a random machine, but in case it helps, the node identifier (as per `bin/gen_node_identifier.py`) is `c79891e5-aabf-3a83-95b9-588edcd8327f`.
+The machine type is a Mac mini, M1, 2020, with 16 GB of RAM, a nearly full (99%) SSD, and running macOS Sonoma 14.2.1.
+
+### Reference Test Data
 
 Using small JSON files from the reference tests (approximately doubling the byte size every time) on a random 
 developer machine and writing to the /dev/null sink:
