@@ -3,17 +3,17 @@
     {
       "category": "3.10",
       "date": "2024-01",
-      "downloads": 248
+      "downloads": 256
     },
     {
       "category": "3.11",
       "date": "2024-01",
-      "downloads": 212
+      "downloads": 220
     },
     {
       "category": "3.12",
       "date": "2024-01",
-      "downloads": 176
+      "downloads": 184
     },
     {
       "category": "3.3",
@@ -23,7 +23,7 @@
     {
       "category": "null",
       "date": "2024-01",
-      "downloads": 434
+      "downloads": 438
     }
   ],
   "package": "tallipoika",
