@@ -1,4 +1,5 @@
 """Serialize a Python numerical value as an ECMAScript v6 or later string."""
+
 import math
 from typing import Union, no_type_check
 

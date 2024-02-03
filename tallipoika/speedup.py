@@ -1,4 +1,5 @@
 """JSON encoding dispatch that offers C implementations from standard Python install if available."""
+
 import re
 from typing import no_type_check
 

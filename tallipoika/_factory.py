@@ -1,4 +1,5 @@
 """Special factory for iterencode function covering some use cases in the tallipoika JSONEncoder."""
+
 from typing import no_type_check
 
 import tallipoika.py2es6 as py2es6

@@ -1,4 +1,5 @@
 """JSON Canonicalization Scheme (JCS) serializer  - command line interface."""
+
 import argparse
 import _io  # type: ignore
 import json

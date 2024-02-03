@@ -1,4 +1,5 @@
 """Stableson (Finnish: tallipoika) - a JSON Canonicalization Scheme (JCS) implementation."""
+
 import datetime as dti
 import logging
 import os
