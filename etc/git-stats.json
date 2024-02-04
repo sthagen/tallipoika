@@ -1,25 +1,37 @@
 {
   "total": {
-    "commits": 204,
+    "commits": 208,
     "first_committed_at": "2024-01-02T23:43:07+00:00",
-    "last_committed_at": "2024-02-03T17:37:24+00:00",
-    "month_span_day_count": 31,
-    "year_span": 0.08493150684931507,
-    "commits_per_year": 2401,
-    "insertions_per_year": 60166.12903225807,
-    "deletions_per_year": 15000.322580645161,
-    "lines_per_year": 75166.45161290323,
-    "files_per_year": 4097.41935483871,
-    "insertions_count": 5110,
-    "deletions_count": 1274,
-    "lines_count": 6384,
-    "files_count": 348,
-    "insertions_avg": 25.04901960784314,
-    "deletions_avg": 6.245098039215686,
-    "lines_avg": 31.294117647058822,
-    "files_avg": 1.7058823529411764
+    "last_committed_at": "2024-02-04T14:24:56+00:00",
+    "month_span_day_count": 32,
+    "year_span": 0.08767123287671233,
+    "commits_per_year": 2372,
+    "insertions_per_year": 58559.6875,
+    "deletions_per_year": 14805.3125,
+    "lines_per_year": 73365.0,
+    "files_per_year": 4003.59375,
+    "insertions_count": 5134,
+    "deletions_count": 1298,
+    "lines_count": 6432,
+    "files_count": 351,
+    "insertions_avg": 24.682692307692307,
+    "deletions_avg": 6.240384615384615,
+    "lines_avg": 30.923076923076923,
+    "files_avg": 1.6875
   },
   "commit_stats": {
+    "2024-02-04T14:24:56+00:00": {
+      "insertions": 16,
+      "deletions": 16,
+      "lines": 32,
+      "files": 1
+    },
+    "2024-02-03T21:10:36+00:00": {
+      "insertions": 8,
+      "deletions": 8,
+      "lines": 16,
+      "files": 2
+    },
     "2024-02-03T17:37:24+00:00": {
       "insertions": 9,
       "deletions": 7,
@@ -1147,11 +1159,18 @@
       "files": 3
     },
     "2024-02-03": {
-      "commits": 4,
-      "insertions": 17,
-      "deletions": 9,
-      "lines": 26,
-      "files": 9
+      "commits": 5,
+      "insertions": 25,
+      "deletions": 17,
+      "lines": 42,
+      "files": 11
+    },
+    "2024-02-04": {
+      "commits": 1,
+      "insertions": 16,
+      "deletions": 16,
+      "lines": 32,
+      "files": 1
     }
   }
 }
