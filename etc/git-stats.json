@@ -1,25 +1,61 @@
 {
   "total": {
-    "commits": 208,
+    "commits": 217,
     "first_committed_at": "2024-01-02T23:43:07+00:00",
-    "last_committed_at": "2024-02-04T14:24:56+00:00",
-    "month_span_day_count": 32,
-    "year_span": 0.08767123287671233,
-    "commits_per_year": 2372,
-    "insertions_per_year": 58559.6875,
-    "deletions_per_year": 14805.3125,
-    "lines_per_year": 73365.0,
-    "files_per_year": 4003.59375,
-    "insertions_count": 5134,
-    "deletions_count": 1298,
-    "lines_count": 6432,
-    "files_count": 351,
-    "insertions_avg": 24.682692307692307,
-    "deletions_avg": 6.240384615384615,
-    "lines_avg": 30.923076923076923,
-    "files_avg": 1.6875
+    "last_committed_at": "2024-02-05T16:53:08+00:00",
+    "month_span_day_count": 33,
+    "year_span": 0.09041095890410959,
+    "commits_per_year": 2400,
+    "insertions_per_year": 56951.0606060606,
+    "deletions_per_year": 14500.454545454544,
+    "lines_per_year": 71451.51515151515,
+    "files_per_year": 3959.6969696969695,
+    "insertions_count": 5149,
+    "deletions_count": 1311,
+    "lines_count": 6460,
+    "files_count": 358,
+    "insertions_avg": 23.72811059907834,
+    "deletions_avg": 6.04147465437788,
+    "lines_avg": 29.76958525345622,
+    "files_avg": 1.6497695852534562
   },
   "commit_stats": {
+    "2024-02-05T16:53:08+00:00": {
+      "insertions": 1,
+      "deletions": 1,
+      "lines": 2,
+      "files": 1
+    },
+    "2024-02-05T02:37:03+00:00": {
+      "insertions": 1,
+      "deletions": 1,
+      "lines": 2,
+      "files": 1
+    },
+    "2024-02-05T01:10:53+00:00": {
+      "insertions": 1,
+      "deletions": 1,
+      "lines": 2,
+      "files": 1
+    },
+    "2024-02-04T23:19:59+00:00": {
+      "insertions": 3,
+      "deletions": 1,
+      "lines": 4,
+      "files": 1
+    },
+    "2024-02-04T21:43:26+00:00": {
+      "insertions": 1,
+      "deletions": 1,
+      "lines": 2,
+      "files": 1
+    },
+    "2024-02-04T20:51:29+00:00": {
+      "insertions": 8,
+      "deletions": 8,
+      "lines": 16,
+      "files": 2
+    },
     "2024-02-04T14:24:56+00:00": {
       "insertions": 16,
       "deletions": 16,
@@ -1166,11 +1202,18 @@
       "files": 11
     },
     "2024-02-04": {
-      "commits": 1,
-      "insertions": 16,
-      "deletions": 16,
-      "lines": 32,
-      "files": 1
+      "commits": 4,
+      "insertions": 28,
+      "deletions": 26,
+      "lines": 54,
+      "files": 5
+    },
+    "2024-02-05": {
+      "commits": 3,
+      "insertions": 3,
+      "deletions": 3,
+      "lines": 6,
+      "files": 3
     }
   }
 }
