@@ -1,25 +1,37 @@
 {
   "total": {
-    "commits": 746,
+    "commits": 750,
     "first_committed_at": "2024-01-02T23:43:07+00:00",
-    "last_committed_at": "2024-05-21T19:23:08+00:00",
-    "month_span_day_count": 139,
-    "year_span": 0.38082191780821917,
-    "commits_per_year": 1958,
-    "insertions_per_year": 17827.230215827338,
-    "deletions_per_year": 6740.6834532374105,
-    "lines_per_year": 24567.91366906475,
-    "files_per_year": 2168.9928057553957,
-    "insertions_count": 6789,
-    "deletions_count": 2567,
-    "lines_count": 9356,
-    "files_count": 826,
-    "insertions_avg": 9.100536193029491,
-    "deletions_avg": 3.441018766756032,
-    "lines_avg": 12.541554959785524,
-    "files_avg": 1.1072386058981234
+    "last_committed_at": "2024-05-22T02:49:16+00:00",
+    "month_span_day_count": 140,
+    "year_span": 0.3835616438356164,
+    "commits_per_year": 1955,
+    "insertions_per_year": 17723.357142857145,
+    "deletions_per_year": 6716.0,
+    "lines_per_year": 24439.357142857145,
+    "files_per_year": 2161.321428571429,
+    "insertions_count": 6798,
+    "deletions_count": 2576,
+    "lines_count": 9374,
+    "files_count": 829,
+    "insertions_avg": 9.064,
+    "deletions_avg": 3.4346666666666668,
+    "lines_avg": 12.498666666666667,
+    "files_avg": 1.1053333333333333
   },
   "commit_stats": {
+    "2024-05-22T02:49:16+00:00": {
+      "insertions": 1,
+      "deletions": 1,
+      "lines": 2,
+      "files": 1
+    },
+    "2024-05-21T21:57:02+00:00": {
+      "insertions": 8,
+      "deletions": 8,
+      "lines": 16,
+      "files": 2
+    },
     "2024-05-21T19:23:08+00:00": {
       "insertions": 1,
       "deletions": 1,
@@ -4111,11 +4123,18 @@
       "files": 6
     },
     "2024-05-21": {
-      "commits": 3,
-      "insertions": 3,
-      "deletions": 3,
-      "lines": 6,
-      "files": 3
+      "commits": 4,
+      "insertions": 11,
+      "deletions": 11,
+      "lines": 22,
+      "files": 5
+    },
+    "2024-05-22": {
+      "commits": 1,
+      "insertions": 1,
+      "deletions": 1,
+      "lines": 2,
+      "files": 1
     }
   }
 }
